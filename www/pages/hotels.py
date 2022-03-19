@@ -2,8 +2,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import re
 
-def getReviewCount(driver):
-    dataElement = driver.find_elements(By.XPATH, "//a[@id='show_reviews_tab']/span")
+def getReviewCount(squirrel):
+
+    dataElement = squirrel.driver.find_elements(By.XPATH, "//a[@id='show_reviews_tab']/span")
     
     if len(dataElement) == 1:
         if len(dataElement[0].text) != 0:

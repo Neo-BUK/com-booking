@@ -6,14 +6,14 @@ class Review():
         self.title = title
     
 
-def getCountOfReviewsElements(driver):
-    return len(driver.find_elements(By.XPATH, "//li[@class='review_list_new_item_block']"));
+def getCountOfReviewsElements(squirrel):
+    return len(squirrel.driver.find_elements(By.XPATH, "//li[@class='review_list_new_item_block']"));
 
-def getListOfReviews(driver):
+def getListOfReviews(squirrel):
     import dateparser
     listOfReviews = [];
     
-    dataList = driver.find_elements(By.XPATH, "//li[@class='review_list_new_item_block']");
+    dataList = squirrel.driver.find_elements(By.XPATH, "//li[@class='review_list_new_item_block']");
     
     for el in dataList:
         reviewData = {};
@@ -107,12 +107,11 @@ def getListOfReviews(driver):
             test = 33;
         
         listOfReviews.append(reviewData)
-    
-        
+
     return listOfReviews;
          
-def getCurrentPaginationNumber(driver):
-    dataPagination = driver.find_elements(By.XPATH, "//div[@class='bui-pagination__list']");
+def getCurrentPaginationNumber(squirrel):
+    dataPagination = squirrel.driver.find_elements(By.XPATH, "//div[@class='bui-pagination__list']");
     
     if len(dataPagination) == 1:
         pagElements = dataPagination[0].find_elements(By.XPATH, "./child::*");
@@ -126,8 +125,8 @@ def getCurrentPaginationNumber(driver):
     return None;   
     
     
-def goToNextPaginationPage(driver):
-    dataPagination = driver.find_elements(By.XPATH, "//div[@class='bui-pagination__list']");
+def goToNextPaginationPage(squirrel):
+    dataPagination = squirrel.driver.find_elements(By.XPATH, "//div[@class='bui-pagination__list']");
     
     if len(dataPagination) == 1:
         pagElements = dataPagination[0].find_elements(By.XPATH, "./child::*");
@@ -138,8 +137,10 @@ def goToNextPaginationPage(driver):
                 nexpPag = elPagination.find_elements(By.XPATH, "./a")
                 if len(nexpPag) == 1:
                     nextPage = nexpPag[0].get_attribute("href");
-                    driver.execute_script('window.location.href = "' + nextPage + '"');
+                    #driver.execute_script('window.location.href = "' + nextPage + '"');
                     #driver.get(nextPage);
+                    squirrel.get(nextPage)
+
                     return True;
                 else:
                     return False;
